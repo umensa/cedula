@@ -1,53 +1,43 @@
 class ParticipantsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :catch_not_found
   before_action :set_participant, only: %i[ show edit update destroy ]
+  layout 'session_layout'
 
-  # GET /participants or /participants.json
   def index
     @participants = Participant.all
   end
 
-  # GET /participants/1 or /participants/1.json
   def show
   end
 
-  # GET /participants/new
   def new
     @participant = Participant.new
   end
 
-  # GET /participants/1/edit
   def edit
   end
 
-  # POST /participants or /participants.json
   def create
     @participant = Participant.new(participant_params)
-
-    respond_to do |format|
-      if @participant.save
-        format.html { redirect_to @participant, notice: "Participant was successfully created." }
-        format.json { render :show, status: :created, location: @participant }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
+    if @participant.save
+      flash.notice = "The participant record was created successfully."
+      redirect_to @participant
+    else
+      flash.now.alert = @participant.errors.full_messages.to_sentence
+      render :new 
     end
   end
 
-  # PATCH/PUT /participants/1 or /participants/1.json
   def update
-    respond_to do |format|
-      if @participant.update(participant_params)
-        format.html { redirect_to @participant, notice: "Participant was successfully updated." }
-        format.json { render :show, status: :ok, location: @participant }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
+    if @participant.update(participant_params)
+      flash.notice = "The participant record was updated successfully."
+      redirect_to @participant
+    else
+      flash.now.alert = @participant.errors.full_messages.to_sentence
+      render :edit
     end
   end
 
-  # DELETE /participants/1 or /participants/1.json
   def destroy
     @participant.destroy
     respond_to do |format|
@@ -57,13 +47,17 @@ class ParticipantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_participant
       @participant = Participant.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def participant_params
       params.require(:participant).permit(:participant_name, :session_id)
+    end
+
+    def catch_not_found(e)
+      Rails.logger.debug("We had a not found exception.")
+      flash.alert = e.to_s
+      redirect_to sessions_path
     end
 end
