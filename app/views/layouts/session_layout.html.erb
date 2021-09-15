@@ -9,10 +9,21 @@
   </head>
 
   <body>
-    <% if !flash[:alert].nil? %>
-      <p class="my_alert"><%= flash[:alert] %></p>
-    <% end %>
+    <main class="warpper">
+      <% if !flash[:alert].nil? %>
+        <p class="my_alert"><%= flash[:alert] %></p>
+      <% end %>
+      <nav class="navigation">
+        <section class="container">
+          <div class="navigation-item float-left"><h1><%= link_to 'Cedula', sessions_path %></h1></div>
+          <ul class="navigation-list float-right">
+            <li class="navigation-item"><%= link_to 'Mentors', mentors_path %></li>
+            <li class="navigation-item"><%= link_to 'Participants', participants_path %></li>
+          </ul>
+        </section>
+      </nav>
 
-    <%= yield %>
+      <%= yield %>
+    </main>
   </body>
 </html>
