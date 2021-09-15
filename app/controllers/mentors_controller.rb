@@ -1,53 +1,43 @@
 class MentorsController < ApplicationController
+  rescue_from ActiveRecord::RecordNotFound, with: :catch_not_found
   before_action :set_mentor, only: %i[ show edit update destroy ]
+  layout 'session_layout'
 
-  # GET /mentors or /mentors.json
   def index
     @mentors = Mentor.all
   end
 
-  # GET /mentors/1 or /mentors/1.json
   def show
   end
 
-  # GET /mentors/new
   def new
     @mentor = Mentor.new
   end
 
-  # GET /mentors/1/edit
   def edit
   end
 
-  # POST /mentors or /mentors.json
   def create
     @mentor = Mentor.new(mentor_params)
-
-    respond_to do |format|
-      if @mentor.save
-        format.html { redirect_to @mentor, notice: "Mentor was successfully created." }
-        format.json { render :show, status: :created, location: @mentor }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @mentor.errors, status: :unprocessable_entity }
-      end
+    if @mentor.save
+      flash.notice = "The mentor record was created successfully."
+      redirect_to @mentor
+    else
+      flash.now.alert = @mentor.errors.full_messages.to_sentence
+      render :new
     end
   end
 
-  # PATCH/PUT /mentors/1 or /mentors/1.json
   def update
-    respond_to do |format|
-      if @mentor.update(mentor_params)
-        format.html { redirect_to @mentor, notice: "Mentor was successfully updated." }
-        format.json { render :show, status: :ok, location: @mentor }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @mentor.errors, status: :unprocessable_entity }
-      end
+    if @mentor.update(mentor_params)
+        flash.notice = "The mentor record was updated successfully."
+      redirect_to @mentor
+    else
+      flash.now.alert = @mentor.errors.full_messages.to_sentence
+      render :edit
     end
   end
 
-  # DELETE /mentors/1 or /mentors/1.json
   def destroy
     @mentor.destroy
     respond_to do |format|
@@ -57,13 +47,17 @@ class MentorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_mentor
       @mentor = Mentor.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def mentor_params
       params.require(:mentor).permit(:mentor_name)
+    end
+
+    def catch_not_found(e)
+      Rails.logger.debug("We had a not found exception.")
+      flash.alert = e.to_s
+      redirect_to sessions_path
     end
 end
