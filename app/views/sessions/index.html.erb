@@ -1,7 +1,8 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Sessions</h1>
-
+<button class="button button-outline"><%= link_to 'New Session', new_session_path %></button>
+<button class="button button-clear"><%= link_to 'Mentors', mentors_path %></button>
 <table>
   <thead>
     <tr>
@@ -27,7 +28,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Session', new_session_path %>

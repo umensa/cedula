@@ -1,5 +1,8 @@
 <h1>New Session</h1>
+<button class="button button-outline"><%= link_to 'Sessions', sessions_path %>
+</button>
+<button class="button button-outline"><%= link_to 'Mentors', mentors_path %></button>
+<div class="container">
 
 <%= render 'form', session: @session %>
-
-<%= link_to 'Back', sessions_path %>
+</div>
