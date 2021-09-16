@@ -4,47 +4,44 @@
 <div class="container">
   <div class="row">
     <div class="column">
-      <h2><%= @session.topic %></h2>
+      <h1><%= @session.topic %></h1>
     </div>
-    <div class="column">
+    <div class="column column-40">
       <button class="button button-outline"><%= link_to 'Edit Session', edit_session_path(@session) %></button>
-    </div>
-    <div class="column">
       <button class="button button-clear"><%= link_to 'Back', sessions_path %></button>
     </div>
   </div>
 
   <div class="row">
     <div class="column">
-      <strong>Mentor id:</strong>
-       <%= @session.mentor_id %>
-    </div >
-  </div>
-
-  <div class="row">
-    <div class="column">
-      <strong>Mentor :</strong>
       <% this_mentor = Mentor.find(@session.mentor_id) %>
-       <%= this_mentor.mentor_name %>
+      <h2><%= this_mentor.mentor_name %></h2>
     </div >
+    <div class="column column-40">
+      <h3>Session | id <%= @session.id %></h3>
+    </div>
   </div>
 
   <div class="row">
     <div class="column">
-      <strong>Start time:</strong>
-      <%= @session.start_time %>
+      <h4>Start time <u><%= @session.start_time %></u></h4>
     </div >
     <div class="column">
-      <strong>End time:</strong>
-      <%= @session.end_time %>
+      <h4>End time <u><%= @session.end_time %></u></h4>      
     </div >
   </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="column"  id="participants">
+     <h3>Participants</h3>
+    </div>
+    <div class="column column-80">
+      <button class="button button-outline"><%= link_to 'New participant', new_participant_path %></button>
+    </div>
+  </div>
 
-</div class="container">
-  <button class="button button-outline"><%= link_to 'New participant', new_participant_path %></button>
-  <div id="participants">
-    <h3>participants</h3>
-
+  <div class="row">
     <table>
       <thead>
         <tr>
@@ -65,3 +62,4 @@
       </tbody>
     </table>
   </div>
+</div>
