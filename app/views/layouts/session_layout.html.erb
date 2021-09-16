@@ -15,15 +15,16 @@
       <% end %>
       <nav class="navigation">
         <section class="container">
-          <div class="navigation-item float-left"><h1><%= link_to 'Cedula', sessions_path %></h1></div>
+          <div class="navigation-title"><h1 class="title"><strong><%= link_to 'Cedula', sessions_path %></strong></h1></div>
           <ul class="navigation-list float-right">
-            <li class="navigation-item"><%= link_to 'Mentors', mentors_path %></li>
-            <li class="navigation-item"><%= link_to 'Participants', participants_path %></li>
+            <li class="navigation-item"><h3 class="navigation-link"><%= link_to 'Mentors', mentors_path %></h3></li>
+            <li class="navigation-item"><h3 class="navigation-link"><%= link_to 'Participants', participants_path %></h3></li>
           </ul>
         </section>
       </nav>
-
-      <%= yield %>
+      <div class="container">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>

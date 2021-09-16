@@ -7,5 +7,5 @@
   <%= @mentor.mentor_name %>
 </p>
 
-<%= link_to 'Edit', edit_mentor_path(@mentor) %> |
-<%= link_to 'Back', mentors_path %>
+<button class="button button-outline"><%= link_to 'Edit', edit_mentor_path(@mentor) %></button>
+<button class="button button-clear"><%= link_to 'Back', mentors_path %></button>
