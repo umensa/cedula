@@ -1,4 +1,3 @@
-<form>
 <%= form_with(model: session) do |form| %>
   <% if session.errors.any? %>
     <div id="error_explanation">
@@ -11,29 +10,31 @@
       </ul>
     </div>
   <% end %>
-
+<from>
+  <fieldset>
   <div class="field">
-    <%= form.label :topic %>
+    <label for="nameField"><%= form.label :topic %></label>
     <%= form.text_field :topic %>
   </div>
 
   <div class="field">
-    <%= form.label :mentor_id %>
+    <label for="nameField"><%= form.label :mentor_id %></label>
     <%= form.text_field :mentor_id %>
   </div>
 
   <div class="field">
-    <%= form.label :start_time %>
+    <label for="nameField"><%= form.label :start_time %></label>
     <%= form.datetime_select :start_time %>
   </div>
 
   <div class="field">
-    <%= form.label :end_time %>
+    <label for="nameField"><%= form.label :end_time %></label>
     <%= form.datetime_select :end_time %>
   </div>
 
-  <div class="actions">
+  <div class="actions button-primary">
     <%= form.submit %>
   </div>
 <% end %>
-</form>
+  </fieldset>
+</from>
