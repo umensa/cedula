@@ -16,10 +16,7 @@
     <%= form.text_field :participant_name %>
   </div>
 
-  <div class="field">
-    <%= form.label :session_id %>
-    <%= form.text_field :session_id %>
-  </div>
+  <%= form.collection_select :session_id, Session.all, :id, :topic, include_blank: true %>
 
   <div class="actions">
     <%= form.submit %>
