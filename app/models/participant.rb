@@ -1,4 +1,4 @@
 class Participant < ApplicationRecord
-  has_many :sessions
+  belongs_to :sessions
   has_many :mentors, :through => :sessions
 end

@@ -16,9 +16,10 @@
 
   <tbody>
     <% @sessions.each do |session| %>
+    <% this_mentor = Mentor.find(session.mentor_id) %>
       <tr>
         <td><%= session.topic %></td>
-        <td><%= session.mentor_id %></td>
+        <td><%= this_mentor.mentor_name %></td>
         <td><%= session.start_time %></td>
         <td><%= session.end_time %></td>
         <td><%= link_to 'Show', session %></td>

@@ -19,7 +19,7 @@
 
   <div class="field">
     <label for="nameField"><%= form.label :mentor_id %></label>
-    <%= form.text_field :mentor_id %>
+    <%= form.collection_select :mentor_id, Mentor.all, :id, :mentor_name, include_blank: true %>
   </div>
 
   <div class="field">
