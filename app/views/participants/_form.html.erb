@@ -10,18 +10,21 @@
       </ul>
     </div>
   <% end %>
+  <from>
+    <fieldset>
+      <div class="field">
+        <%= form.label :participant_name %>
+        <%= form.text_field :participant_name %>
+      </div>
 
-  <div class="field">
-    <%= form.label :participant_name %>
-    <%= form.text_field :participant_name %>
-  </div>
+      <div class="field">
+        <%= form.label :session_id %>
+        <%= form.collection_select :session_id, Session.all, :id, :topic, include_blank: true %>
+      </div>
 
-  <div class="field">
-    <%= form.label :session_id %>
-    <%= form.collection_select :session_id, Session.all, :id, :topic, include_blank: true %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+      <div class="actions button-primary">
+        <%= form.submit %>
+      </div>
+    </fieldset>
+  </from>
 <% end %>
