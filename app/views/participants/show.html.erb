@@ -22,7 +22,7 @@
           <tbody>
             <tr>
               <td><%= @participant.session_id %></td>
-              <td><%= link_to 'Destroy', participants_path(@participant), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <td><%= link_to 'Destroy', @participant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
           </tbody>
         </table>
