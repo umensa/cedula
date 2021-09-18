@@ -1,3 +1,3 @@
 class Participant < ApplicationRecord
-  belongs_to :sessions
+  has_and_belongs_to_many :sessions
 end
