@@ -14,7 +14,7 @@
   <fieldset>
   <div class="field">
     <label for="nameField"><%= form.label :topic %></label>
-    <%= form.text_field :topic %>
+    <%= form.text_field :topic, class: "input" %>
   </div>
 
   <div class="field">
@@ -24,12 +24,12 @@
 
   <div class="field">
     <label for="nameField"><%= form.label :start_time %></label>
-    <%= form.datetime_select :start_time %>
+    <%= form.datetime_select :start_time, { start_day: Date.today, start_year: Date.today.year, minute_step: 15 }, { class: "select" } %>
   </div>
 
   <div class="field">
     <label for="nameField"><%= form.label :end_time %></label>
-    <%= form.datetime_select :end_time %>
+    <%= form.datetime_select :end_time, { start_day: Date.today, start_year: Date.today.year, minute_step: 15 }, { class: "select" } %>
   </div>
 
   <div class="actions button-primary">
