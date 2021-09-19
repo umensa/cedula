@@ -47,7 +47,9 @@ RSpec.describe Session, type: :model do
     
     session.end_time = nil
     expect(session).to_not be_valid
+  end
 
+  it "is not valid with end_time equal or before start_time" do
     session.end_time = session.start_time
     expect(session).to_not be_valid
 
