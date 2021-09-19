@@ -1,5 +1,5 @@
 require 'rails_helper'
 
 RSpec.describe Participant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { Participant.new(participant_name: "Tom", FactoryBot.create(:session)) }
 end
