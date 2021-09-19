@@ -21,8 +21,8 @@
       <tr>
         <td><%= session.topic %></td>
         <td><%= this_mentor.mentor_name %></td>
-        <td><%= session.start_time %></td>
-        <td><%= session.end_time %></td>
+        <td><%= readable_time(session.start_time) %></td>
+        <td><%= readable_time(session.end_time) %></td>
         <td><%= link_to 'Show', session %></td>
         <td><%= link_to 'Edit', edit_session_path(session) %></td>
         <td><%= link_to 'Destroy', session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
