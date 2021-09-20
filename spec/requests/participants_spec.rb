@@ -85,7 +85,7 @@ RSpec.describe "Participants", type: :request do
   describe "put participant_path with invalid data" do
     it "does not update the session record or redirect" do
       session = FactoryBot.create(:session)
-        participant = FactoryBot.create(:participant, session_id: session.id)
+      participant = FactoryBot.create(:participant, session_id: session.id)
       put "/participants/#{participant.id}", params: {participant: {participant_name: ""}}
       participant.reload
       expect(participant.session_id).not_to eq("")
