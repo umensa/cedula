@@ -88,8 +88,8 @@ RSpec.describe "/mentors", type: :request do
 
   describe "post mentors_path with invalid data" do
     it "does not save a new entry or redirect" do
-      mentor_attributes = FactoryBot.attributes_for(:mentor)
-      mentor_attributes.delete(:mentor_name)
+      mentor = FactoryBot.create(:mentor)
+      mentor_attributes = FactoryBot.attributes_for(:mentor, mentor_name: "")
       expect { post mentors_path, params: {mentor: mentor_attributes} }.to_not change(Mentor, :count)
       expect(response).to render_template(:new)
     end
