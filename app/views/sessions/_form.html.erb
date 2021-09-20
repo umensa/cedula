@@ -1,40 +1,42 @@
-<%= form_with(model: session) do |form| %>
-  <% if session.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(session.errors.count, "error") %> prohibited this session from being saved:</h2>
+<div class="container">
+  <%= form_with(model: session) do |form| %>
+    <% if session.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(session.errors.count, "error") %> prohibited this session from being saved:</h2>
 
-      <ul>
-        <% session.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% session.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <from>
+    <fieldset>
+    <div class="field">
+      <label for="nameField"><%= form.label :topic %></label>
+      <%= form.text_field :topic, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label for="nameField"><%= form.label :mentor_id %></label>
+      <%= form.collection_select :mentor_id, Mentor.all, :id, :mentor_name, include_blank: true %>
+    </div>
+
+    <div class="field">
+      <label for="nameField"><%= form.label :start_time %></label>
+      <%= form.datetime_select :start_time, { start_day: Date.today, start_year: Date.today.year, minute_step: 15 }, { class: "select" } %>
+    </div>
+
+    <div class="field">
+      <label for="nameField"><%= form.label :end_time %></label>
+      <%= form.datetime_select :end_time, { start_day: Date.today, start_year: Date.today.year, minute_step: 15 }, { class: "select" } %>
+    </div>
+
+    <div class="actions button-primary">
+      <%= form.submit %>
     </div>
   <% end %>
-<from>
-  <fieldset>
-  <div class="field">
-    <label for="nameField"><%= form.label :topic %></label>
-    <%= form.text_field :topic %>
-  </div>
-
-  <div class="field">
-    <label for="nameField"><%= form.label :mentor_id %></label>
-    <%= form.collection_select :mentor_id, Mentor.all, :id, :mentor_name, include_blank: true %>
-  </div>
-
-  <div class="field">
-    <label for="nameField"><%= form.label :start_time %></label>
-    <%= form.datetime_select :start_time %>
-  </div>
-
-  <div class="field">
-    <label for="nameField"><%= form.label :end_time %></label>
-    <%= form.datetime_select :end_time %>
-  </div>
-
-  <div class="actions button-primary">
-    <%= form.submit %>
-  </div>
-<% end %>
-  </fieldset>
-</from>
+    </fieldset>
+  </from>
+</div>

@@ -16,27 +16,33 @@ RSpec.describe "/mentors", type: :request do
   
   # Mentor. As you add validations to Mentor, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  # let(:valid_attributes) {
+  #   skip("Add a hash of attributes valid for your model")
+  # }
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  # let(:invalid_attributes) {
+  #   skip("Add a hash of attributes invalid for your model")
+  # }
 
   describe "GET /index" do
     it "renders a successful response" do
-      Mentor.create! valid_attributes
+      mentor = FactoryBot.create(:mentor)
       get mentors_url
       expect(response).to be_successful
     end
   end
 
   describe "GET /show" do
-    it "renders a successful response" do
-      mentor = Mentor.create! valid_attributes
-      get mentor_url(mentor)
+    it "renders a successful response && renders the :show template" do
+      mentor = FactoryBot.create(:mentor)
+      get mentor_url(id: mentor.id)
       expect(response).to be_successful
+      expect(response).to render_template(:show)
+    end
+
+    it "redirects to the index path if the mentor id is invalid" do
+      get mentor_path(id: 100) #an ID that doesn't exist
+      expect(response).to redirect_to sessions_path
     end
   end
 
@@ -44,87 +50,85 @@ RSpec.describe "/mentors", type: :request do
     it "renders a successful response" do
       get new_mentor_url
       expect(response).to be_successful
+      expect(response).to render_template(:new)
     end
   end
 
   describe "GET /edit" do
     it "render a successful response" do
-      mentor = Mentor.create! valid_attributes
-      get edit_mentor_url(mentor)
+      mentor = FactoryBot.create(:mentor)
+      get edit_mentor_url(id: mentor.id)
       expect(response).to be_successful
+      expect(response).to render_template(:edit)
     end
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
       it "creates a new Mentor" do
+        attributes = FactoryBot.attributes_for(:mentor)
         expect {
-          post mentors_url, params: { mentor: valid_attributes }
+          post mentors_path, params: { mentor: attributes }
         }.to change(Mentor, :count).by(1)
       end
 
       it "redirects to the created mentor" do
-        post mentors_url, params: { mentor: valid_attributes }
-        expect(response).to redirect_to(mentor_url(Mentor.last))
+        attributes = FactoryBot.attributes_for(:mentor)
+        post mentors_path, params: { mentor: attributes }
+        expect(response).to redirect_to mentor_path(id: Mentor.last.id)
       end
+  end
+
+  describe "post mentors_path with valid data" do
+    it "saves a new entry and redirects to the show path for the entry" do
+      mentor_attributes = FactoryBot.attributes_for(:mentor)
+      expect { post mentors_path, params: {mentor: mentor_attributes} }.to change(Mentor, :count)
+      expect(response).to redirect_to mentor_path(id: Mentor.last.id)
     end
+  end
 
-    context "with invalid parameters" do
-      it "does not create a new Mentor" do
-        expect {
-          post mentors_url, params: { mentor: invalid_attributes }
-        }.to change(Mentor, :count).by(0)
-      end
-
-      it "renders a successful response (i.e. to display the 'new' template)" do
-        post mentors_url, params: { mentor: invalid_attributes }
-        expect(response).to be_successful
-      end
+  describe "post mentors_path with invalid data" do
+    it "does not save a new entry or redirect" do
+      mentor = FactoryBot.create(:mentor)
+      mentor_attributes = FactoryBot.attributes_for(:mentor, mentor_name: "")
+      expect { post mentors_path, params: {mentor: mentor_attributes} }.to_not change(Mentor, :count)
+      expect(response).to render_template(:new)
     end
   end
 
   describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
       it "updates the requested mentor" do
-        mentor = Mentor.create! valid_attributes
-        patch mentor_url(mentor), params: { mentor: new_attributes }
+        mentor = FactoryBot.create(:mentor, mentor_name: "Bob")
+        expect(mentor.mentor_name).to eql("Bob")
+
+        patch mentor_url(mentor), params: { mentor: {mentor_name: "John"} }
         mentor.reload
-        skip("Add assertions for updated state")
+        expect(mentor.mentor_name).to eql("John")
       end
 
       it "redirects to the mentor" do
-        mentor = Mentor.create! valid_attributes
-        patch mentor_url(mentor), params: { mentor: new_attributes }
+        mentor = FactoryBot.create(:mentor, mentor_name: "Bob")
+        patch mentor_url(mentor), params: { mentor: {mentor_name: "John"} }
         mentor.reload
         expect(response).to redirect_to(mentor_url(mentor))
       end
-    end
 
-    context "with invalid parameters" do
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        mentor = Mentor.create! valid_attributes
-        patch mentor_url(mentor), params: { mentor: invalid_attributes }
+        mentor = FactoryBot.create(:mentor)
+        patch mentor_url(mentor), params: { mentor: {mentor_name: ""} }
+        mentor.reload
         expect(response).to be_successful
+        expect(mentor.mentor_name).to_not be_empty
+        expect(response).to render_template(:edit)
       end
-    end
   end
 
-  describe "DELETE /destroy" do
-    it "destroys the requested mentor" do
-      mentor = Mentor.create! valid_attributes
-      expect {
-        delete mentor_url(mentor)
-      }.to change(Mentor, :count).by(-1)
-    end
-
-    it "redirects to the mentors list" do
-      mentor = Mentor.create! valid_attributes
-      delete mentor_url(mentor)
-      expect(response).to redirect_to(mentors_url)
+  describe "delete a mentor record" do
+    it "delete a mentor record" do
+      mentor = FactoryBot.create(:mentor)
+      expect { 
+        delete mentor_path(mentor.id)
+      }.to change{Mentor.count}
+      expect(response).to redirect_to mentors_path
     end
   end
 end
