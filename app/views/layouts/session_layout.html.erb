@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <title>Cedula</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <main class="warpper">
+      <% if !flash[:alert].nil? %>
+        <p class="my_alert"><%= flash[:alert] %></p>
+      <% end %>
+      <nav class="navigation">
+        <section class="container">
+          <div class="navigation-title"><h1 class="title"><strong><%= link_to 'Cedula', sessions_path %></strong></h1></div>
+          <ul class="navigation-list float-right">
+            <li class="navigation-item"><h3 class="navigation-link"><%= link_to 'Mentors', mentors_path %></h3></li>
+            <li class="navigation-item"><h3 class="navigation-link"><%= link_to 'Sessions', sessions_path %></h3></li>
+          </ul>
+        </section>
+      </nav>
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>
