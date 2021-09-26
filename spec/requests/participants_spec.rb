@@ -102,7 +102,7 @@ RSpec.describe "Participants", type: :request do
       expect { 
         delete participant_path(participant.id)
       }.to change{Participant.count}
-      expect(response).to redirect_to session_path(session.id)
+      expect(response).to redirect_to session_path
       end
   end
 end
